@@ -6,18 +6,20 @@ import morgan from 'morgan'
 import Controller from './utils/interfaces/controller.interface'
 import ErrorMiddleware from './middleware/error.middleware'
 import helmet from 'helmet'
+import routes from './routes/routes'
 
 class App {
     public express: Application;
     public port: number
 
-    constructor(controllers: Controller[], port: number) {
+    constructor(port: number) {
         this.express = express();
         this.port = port;
 
         this.initializeDatabaseConnection()
         this.initializeMiddleware()
-        this.initializeControllers(controllers)
+        // this.initializeControllers(controllers)
+        this.initializeRoutes()
         this.initializeErrorHandling()
     }
 
@@ -30,10 +32,14 @@ class App {
         this.express.use(compression())
     }
 
-    private initializeControllers(controllers: Controller[]): void {
-        controllers.forEach((controller: Controller) => {
-            this.express.use('/api', controller.router)
-        })
+    // private initializeControllers(controllers: Controller[]): void {
+    //     controllers.forEach((controller: Controller) => {
+    //         this.express.use('/api', controller.router)
+    //     })
+    // }
+
+    private initializeRoutes(): void {
+        this.express.use('/api',routes)
     }
 
     private initializeErrorHandling(): void {
@@ -44,6 +50,7 @@ class App {
         const { MONGO_PATH, MONGO_USER, MONGO_PASSWORD } = process.env
 
         mongoose.connect(`${MONGO_PATH}`)
+        console.log('Database connected')
         // mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`)
     }
 
