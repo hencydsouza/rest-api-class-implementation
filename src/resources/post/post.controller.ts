@@ -1,7 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import HttpException from '../../utils/exceptions/http.exception'
 import PostModel from "./post.model";
-import Controller from '../../utils/interfaces/controller.interface';
 
 class PostController {
     private postModel = PostModel
