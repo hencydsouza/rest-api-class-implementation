@@ -1,11 +1,19 @@
-import { Router } from "express";
+import express from "express";
 import PostController from "../resources/post/post.controller";
-
-const router = Router()
 
 const post = new PostController()
 
-// User post routes
-router.route('/posts').post(post.create).get(post.getAllPosts)
+class Routes {
+    public router = express.Router()
 
-export default router
+    constructor() {
+        this.createPostRoutes()
+    }
+
+    private createPostRoutes() {
+        this.router.post('/posts', post.create)
+        this.router.get('/posts', post.getAllPosts)
+    }
+}
+
+export default Routes

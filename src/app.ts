@@ -3,10 +3,10 @@ import mongoose from 'mongoose'
 import compression from 'compression'
 import cors from 'cors'
 import morgan from 'morgan'
-import Controller from './utils/interfaces/controller.interface'
+// import Controller from './utils/interfaces/controller.interface'
 import ErrorMiddleware from './middleware/error.middleware'
 import helmet from 'helmet'
-import routes from './routes/routes'
+import Routes from './routes/routes'
 
 class App {
     public express: Application;
@@ -39,7 +39,8 @@ class App {
     // }
 
     private initializeRoutes(): void {
-        this.express.use('/api',routes)
+        const routes = new Routes()
+        this.express.use('/api',routes.router)
     }
 
     private initializeErrorHandling(): void {
